@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Input from './components/Input';
 import List from './components/List';
 
@@ -6,7 +6,22 @@ function App() {
   const [todos,settodos] = useState([]);
 
   const addToDo = (newtodo)=>{
-    settodos([...todos,newtodo]);
+    if(edittodo.index!==''){
+
+      const updatedvalue = todos.map((todo,index)=>
+      index===edittodo.index? newtodo:todo
+    )
+   
+    settodos(updatedvalue);
+    seteditTodo({
+      index:'',
+      value:''
+    })
+
+    }else {
+      settodos([...todos,newtodo]);
+    }
+    
   };
 
   const deleteTodo=(indexToDelete)=>{
@@ -14,12 +29,27 @@ function App() {
 
   }
  
+  const[edittodo,seteditTodo]=useState({
+    index:'',
+    value:''
+  })
+
+   function editTodo(index,value){
+    console.log(index,value);
+    seteditTodo({
+      index,
+      value
+    })
+  }
+
+  
  
   
   return (
     <div className="App">
-      <Input addToDo = {addToDo}/>
-      <List todos = {todos} deleteTodo = {deleteTodo}/>
+
+      <Input addToDo = {addToDo} editTodos = {edittodo}/>
+      <List todos = {todos} deleteTodo = {deleteTodo} editTodo = {editTodo}/>
       
     </div>
   );

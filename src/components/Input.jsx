@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 export default function Input(props) {
@@ -24,12 +24,20 @@ export default function Input(props) {
 
     }
 
+    useEffect(()=>{
+        setInputValue(props.editTodos.value)
+    },[props.editTodos.value])
+
   return (
     <div>
         
       <input type = 'text' onChange={handleChange} value={inputValue} ></input>
-      <button type = 'submit' onClick={handleClick}>Add Todo</button>
-      
+      <button type = 'submit' onClick={handleClick}>
+        {
+            props.editTodos.index===''?"Add":"Update"
+        }
+      </button>
+
     </div>
   )
 }
